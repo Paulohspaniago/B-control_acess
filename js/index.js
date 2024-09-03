@@ -1,3 +1,8 @@
+navigator.geolocation.getCurrentPosition((position)=> {
+    console.log(position);
+
+});
+
 const diaSemana = document.getElementById("dia-semana");
 const diaMesAno = document.getElementById("dia-mes-ano");
 const horaMinSeg = document.getElementById("hora");
@@ -5,6 +10,9 @@ const horaMinSeg = document.getElementById("hora");
 diaSemana.textContent = "Domingo";
 diaMesAno.textContent = getCurrentDay();
 diaSemana.textContent = getWeekDay();
+
+
+//////////////////////////////////////////////////////
 
 const dialogPonto = document.getElementById("dialog-ponto");
 
@@ -14,6 +22,15 @@ btnBaterPonto.addEventListener("click", register);
 const btnSairModal = document.getElementById("btn-saida");
 btnSairModal.addEventListener("click", closing );
 
+const dialogData = document.getElementById("dialog-data");
+dialogData.textContent = "Data : " + getCurrentDay();
+
+const dialogHora = document.getElementById("dialog-hora");
+dialogHora.textContent = "Hora : " + getCurrentHour();
+
+//////////////////////////////////////////////////////
+
+ 
 function getWeekDay() {
     const date= new Date();
     let days = ["Domingo", "Segunda-feira", "Terca-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira","Sabado"];
