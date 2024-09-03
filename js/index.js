@@ -3,9 +3,16 @@ const diaMesAno = document.getElementById("dia-mes-ano");
 const horaMinSeg = document.getElementById("hora");
 
 diaSemana.textContent = "Domingo";
-
 diaMesAno.textContent = getCurrentDay();
 diaSemana.textContent = getWeekDay();
+
+const dialogPonto = document.getElementById("dialog-ponto");
+
+const btnBaterPonto = document.getElementById("btn-bater-ponto");
+btnBaterPonto.addEventListener("click", register);
+
+const btnSairModal = document.getElementById("btn-saida");
+btnSairModal.addEventListener("click", closing );
 
 function getWeekDay() {
     const date= new Date();
@@ -60,9 +67,10 @@ function getCurrentHour(){
     return hora + ":" + min +  ":" + seg;
 }
 
-const btnBaterPonto = document.getElementById("btn-bater-ponto");
-btnBaterPonto.addEventListener("click", register);
 
 function register(){
-    alert("bater ponto");
+    dialogPonto.showModal();
+}
+function closing (){
+    dialogPonto.close();
 }
