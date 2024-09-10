@@ -16,12 +16,15 @@
     <dialog id="dialog-ponto">
         <p id="dialog-data">Data</p>
         <p id="dialog-hora">Hora</p>
-        <button>Entrada</button>
-        <button>Intervalo</button>
-        <button>Volta Intervalo</button>
-        <button >Saida</button>
-        <button id="btn-saida">X</button>
-
+        <select name="tipos-ponto" id="tipoponto">
+            <option value="entrada"> entrada</option>
+            <option value="intervalo">intervalo</option>
+            <option value="volta intervalo">volta intervalo</option>          
+            <option value="saida">saida</option>
+            <button id="btn-saida">X</button>
+        </select>   
+        <button id="btn-dialog-bater-ponto">bater</button>
+        <button id="btn-dialog-fechar-ponto">fechar</button>
     </dialog>
     <!-- criar historico dos ultimos n registros-->
     <!-- criar footer para alerta-->
