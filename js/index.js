@@ -22,7 +22,7 @@ const dialogPonto = document.getElementById("dialog-ponto");
 const btnBaterPonto = document.getElementById("btn-bater-ponto");
 btnBaterPonto.addEventListener("click", register);
 
-const btnSairModal = document.getElementById("btn-saida");
+const btnSairModal = document.getElementById("btn-dialog-fechar");
 btnSairModal.addEventListener("click", closing );
 
 const dialogData = document.getElementById("dialog-data");
