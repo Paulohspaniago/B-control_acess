@@ -14,13 +14,20 @@
     </div>
     <button id="btn-bater-ponto">bater ponto!</button>
     <dialog id="dialog-ponto">
+
         <p id="dialog-data">Data</p>
         <p id="dialog-hora">Hora</p>
-        <button>Entrada</button>
-        <button>Intervalo</button>
-        <button>Volta Intervalo</button>
-        <button >Saida</button>
-        <button id="btn-saida">X</button>
+        <select name="tipos-ponto" id="tipos-ponto">
+
+        <option value ="entrada"> Entrada</option>>
+        <option value="intervalo">Intervalo</option>
+        <option value="volta-intervalo">Volta Intervalo</option>
+        <option value="saida">Saída</option>
+
+        </select>
+        
+        <button id="btn-dialog-fechar">X</button>
+        <button id="btn-dialog-bater-ponto">Registrar ponto</button>
 
     </dialog>
     <!-- criar historico dos ultimos n registros-->

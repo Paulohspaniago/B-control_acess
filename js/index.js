@@ -19,7 +19,12 @@ const dialogPonto = document.getElementById("dialog-ponto");
 const btnBaterPonto = document.getElementById("btn-bater-ponto");
 btnBaterPonto.addEventListener("click", register);
 
-const btnSairModal = document.getElementById("btn-saida");
+const btnDialogFechar = document.getElementById("btn-dialog-fechar");
+btnDialogFechar.addEventListener("click", () => {
+    dialogPonto.close();
+});
+
+const btnSairModal = document.getElementById("btn-dialog-fechar");
 btnSairModal.addEventListener("click", closing );
 
 const dialogData = document.getElementById("dialog-data");
