@@ -1,14 +1,21 @@
 
-function getCurrentPosition(){
-    navigator.geolocation.getCurrentPosition((position)=> {
-        return position;
-
+async function getCurrentPosition() {
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            let userLocation = {
+                "latitude": position.coords.latitude,
+                "longitude": position.coords.longitude
+            }
+            resolve(userLocation);
+        },
+        (error) => {
+            reject("Erro ao recuperar a localização " + error);
+        });
     });
 }
-
 const diaSemana = document.getElementById("dia-semana");
 const diaMesAno = document.getElementById("dia-mes-ano");
-const horaMinSeg = document.getElementById("hora");
+const horaMinSeg = document.getElementById("hora-min-seg");
 
 
 diaMesAno.textContent = getCurrentDay();
@@ -16,14 +23,17 @@ diaSemana.textContent = getWeekDay();
 
 
 //////////////////////////////////////////////////////
+const divAlertaRegistroPonto = document.getElementById("alerta-registro-ponto");
 
 const dialogPonto = document.getElementById("dialog-ponto");
 
 const btnBaterPonto = document.getElementById("btn-bater-ponto");
 btnBaterPonto.addEventListener("click", register);
 
-const btnSairModal = document.getElementById("btn-dialog-fechar");
-btnSairModal.addEventListener("click", closing );
+const btnDialogFechar = document.getElementById("btn-dialog-fechar");
+btnDialogFechar.addEventListener("click", () => {
+    dialogPonto.close();
+});
 
 const dialogData = document.getElementById("dialog-data");
 dialogData.textContent = "Data : " + getCurrentDay();
@@ -31,10 +41,10 @@ dialogData.textContent = "Data : " + getCurrentDay();
 const dialogHora = document.getElementById("dialog-hora");
 dialogHora.textContent = "Hora : " + getCurrentHour();
 
-const btnDialogBaterPonto = document.getElementById("btn-dialgo-bater-ponto");
+const btnDialogBaterPonto = document.getElementById("btn-dialog-bater-ponto");
 btnDialogBaterPonto.addEventListener("click", ()=>{
     
-    let typeregister = document.getElementById("tipos-ponto").value;
+    let typeRegister = document.getElementById("tipos-ponto").value;
     
     let ponto ={ 
         "data": getCurrentDay(),
@@ -47,11 +57,31 @@ btnDialogBaterPonto.addEventListener("click", ()=>{
     console.log(ponto);
 
     saveRegisterLocalStorage(ponto);
-    localStorage.set
-
+    localStorage.setItem("lastDateRegister", ponto.data);
+    localStorage.setItem("lastTimeRegister", ponto.hora);
 
     dialogPonto.close();
+    divAlertaRegistroPonto.classList.remove("hidden");
+    divAlertaRegistroPonto.classList.add("show");
 
+    setTimeout(() => {
+        divAlertaRegistroPonto.classList.remove("show");
+        divAlertaRegistroPonto.classList.add("hidden");
+    }, 5000);
+
+});
+
+const nextRegister = {
+    "entrada": "intervalo",
+    "intervalo": "volta-intervalo", 
+    "volta-intervalo": "saida", 
+    "saida": "entrada"
+}
+
+const btnCloseAlertRegister = document.getElementById("alerta-registro-ponto-fechar");
+btnCloseAlertRegister.addEventListener("click", () => {
+    divAlertaRegistroPonto.classList.remove("show");
+    divAlertaRegistroPonto.classList.add("hidden");
 });
 
 ///to-do
@@ -73,7 +103,8 @@ function printCurrentHour(){
     horaMinSeg.textContent = getCurrentHour();
 }
 
-setInterval(printCurrentHour,1000);
+printCurrentHour();
+setInterval(printCurrentHour, 1000);
 
 function getCurrentDay(){
     const date = new Date();
@@ -116,22 +147,41 @@ function getCurrentHour(){
     return hora + ":" + min +  ":" + seg;
 }
 
-function saveRegisterLocalStorage(register){
-    registerLocalStorage.push(register);
+function saveRegisterLocalStorage(register) {
+    const typeRegister = document.getElementById("tipos-ponto");
+    registerLocalStorage.push(register); // Array
     localStorage.setItem("register", JSON.stringify(registerLocalStorage));
-}
+    localStorage.setItem("lastTypeRegister", typeRegister.value);
+} 
 
-function getRegisterLocalStorage(){
+function getRegisterLocalStorage() {
     let registers = localStorage.getItem("register");
 
     if(!registers) {
         return [];
     }
+
+    return JSON.parse(registers); 
 }
 
+function register() {
+    console.log("Botão clicado!");
+    
+    dialogData.textContent = "Data: " + getCurrentDay();
+    dialogHora.textContent = "Hora: " + getCurrentHour();
+    
+    let lastTypeRegister = localStorage.getItem("lastTypeRegister");
+    if(lastTypeRegister) {
+        const typeRegister   = document.getElementById("tipos-ponto");
+        typeRegister.value   = nextRegister[lastTypeRegister];
+        let lastRegisterText = "Último registro: " + localStorage.getItem("lastDateRegister") + " - " + localStorage.getItem("lastTimeRegister") + " | " + localStorage.getItem("lastTypeRegister")
+        document.getElementById("dialog-last-register").textContent = lastRegisterText;
+    }
 
+    setInterval(() => {
+        dialogHora.textContent = "Hora: " + getCurrentHour();
+    }, 1000);
 
-function register(){
     dialogPonto.showModal();
 }
 
